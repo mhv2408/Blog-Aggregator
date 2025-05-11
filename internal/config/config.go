@@ -7,7 +7,7 @@ import (
 	"os"
 )
 
-const configFileName = ".gatorconfig.json"
+const configFileName = "/.gatorconfig.json"
 
 func getConfigFilePath() (string, error) {
 	// gets the config file path
@@ -16,7 +16,7 @@ func getConfigFilePath() (string, error) {
 		fmt.Print(err)
 		return "", fmt.Errorf("unable to find the homedir")
 	}
-	return homePath + "/workspace/github.com/mhv2408/gator/" + configFileName, nil
+	return homePath + configFileName, nil
 }
 
 type Config struct {
@@ -65,7 +65,7 @@ func write(cfg Config) error {
 }
 
 func (cfg *Config) SetUser(name string) error {
-	cfg.CurrentUserName = "harsha"
+	cfg.CurrentUserName = name
 	return write(*cfg)
 
 }
