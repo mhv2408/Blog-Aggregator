@@ -36,5 +36,6 @@ func main() {
 	if err := cmds.run(st, new_command); err != nil {
 		log.Fatal(err)
 		return
+
 	}
 }
