@@ -15,6 +15,22 @@ type state struct {
 	configPtr *config.Config
 }
 
+type RSSItem struct {
+	Title       string `xml:"title"`
+	Link        string `xml:"link"`
+	Description string `xml:"description"`
+	PubDate     string `xml:"pubDate"`
+}
+
+type RSSFeed struct {
+	Channel struct {
+		Title       string    `xml:"title"`
+		Link        string    `xml:"link"`
+		Description string    `xml:"description"`
+		Item        []RSSItem `xml:"item"`
+	} `xml:"channel"`
+}
+
 func main() {
 	cfg, err := config.Read()
 	if err != nil {
@@ -28,7 +44,6 @@ func main() {
 	db, err := sql.Open("postgres", cfg.DbURL)
 	if err != nil {
 		log.Fatal(err)
-		return
 	}
 	dbQueries := database.New(db)
 	st.db = dbQueries
@@ -41,6 +56,7 @@ func main() {
 	cmds.register("register", handlerRegister) // registerign the new command
 	cmds.register("reset", handleReset)
 	cmds.register("users", handleUsers)
+	cmds.register("agg", handlerAgg)
 	curr_args := os.Args
 	if len(curr_args) < 2 {
 		log.Fatal("Usage: cli <command> [args...]")
