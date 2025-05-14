@@ -10,16 +10,16 @@ import (
 	"github.com/google/uuid"
 )
 
-func handlerFollow(s *state, cmd command) error {
+func handlerFollow(s *state, cmd command, user database.User) error {
 	if len(cmd.args) != 1 {
 		log.Fatal("follow only expects 1 argument")
 	}
 	url := cmd.args[0]
-	// get current_user by name
+	/* get current_user by name
 	user, err := s.db.GetUser(context.Background(), s.configPtr.CurrentUserName)
 	if err != nil {
 		log.Fatal("unable to get the current user by name: ", err)
-	}
+	} */
 
 	//get feed by URL
 
@@ -47,12 +47,7 @@ func handlerFollow(s *state, cmd command) error {
 
 	return nil
 }
-func handlerListFeedFollows(s *state, cmd command) error {
-	//get the current user
-	user, err := s.db.GetUser(context.Background(), s.configPtr.CurrentUserName)
-	if err != nil {
-		log.Fatal("cannot get the current user: ", err)
-	}
+func handlerListFeedFollows(s *state, cmd command, user database.User) error {
 
 	// get the feeds that current user follows
 	follow_feeds, err := s.db.GetFeedFollowsForUser(context.Background(), user.ID)

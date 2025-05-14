@@ -10,12 +10,12 @@ import (
 	"github.com/google/uuid"
 )
 
-func handlerAddFeed(s *state, cmd command) error {
+func handlerAddFeed(s *state, cmd command, user database.User) error {
 
 	if len(cmd.args) < 2 {
 		log.Fatal("require 2 commands")
 	}
-	//Get the CURRENT user from DB
+	/*Get the CURRENT user from DB
 	user, err := s.db.GetUser(context.Background(), s.configPtr.CurrentUserName)
 	if err != nil {
 		log.Fatal("error getting user from db: ", err)
@@ -23,7 +23,7 @@ func handlerAddFeed(s *state, cmd command) error {
 
 	if err != nil {
 		log.Fatal("error in fetching the feed: ", err)
-	}
+	}*/
 
 	db_feed, err := s.db.CreateFeed(context.Background(), database.CreateFeedParams{
 		ID:        uuid.New(),
