@@ -1,4 +1,4 @@
 -- name: GetUserById :one
-SELECT name
+SELECT *
 FROM users
 WHERE id = $1;

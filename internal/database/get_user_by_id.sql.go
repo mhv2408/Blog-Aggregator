@@ -12,14 +12,19 @@ import (
 )
 
 const getUserById = `-- name: GetUserById :one
-SELECT name
+SELECT id, created_at, updated_at, name
 FROM users
 WHERE id = $1
 `
 
-func (q *Queries) GetUserById(ctx context.Context, id uuid.UUID) (string, error) {
+func (q *Queries) GetUserById(ctx context.Context, id uuid.UUID) (User, error) {
 	row := q.db.QueryRowContext(ctx, getUserById, id)
-	var name string
-	err := row.Scan(&name)
-	return name, err
+	var i User
+	err := row.Scan(
+		&i.ID,
+		&i.CreatedAt,
+		&i.UpdatedAt,
+		&i.Name,
+	)
+	return i, err
 }

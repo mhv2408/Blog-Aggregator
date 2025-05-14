@@ -18,13 +18,13 @@ func handlerFeeds(s *state, cmd command) error {
 	}
 	fmt.Printf("Found %d feeds:\n", len(feeds))
 	for _, feed := range feeds {
-		owner_name, err := s.db.GetUserById(context.Background(), feed.UserID)
+		user, err := s.db.GetUserById(context.Background(), feed.UserID)
 		if err != nil {
 			log.Fatal("Cannot retrieve user by id: ", err)
 		}
 		fmt.Printf("* Name:          %s\n", feed.Name)
 		fmt.Printf("* URL:           %s\n", feed.Url)
-		fmt.Printf("* User:          %s\n", owner_name)
+		fmt.Printf("* User:          %s\n", user.Name)
 	}
 
 	return nil
