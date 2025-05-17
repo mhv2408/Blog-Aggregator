@@ -2,10 +2,14 @@ package main
 
 import (
 	"context"
-	"fmt"
+	"database/sql"
+	"gator/internal/database"
 	"html"
 	"log"
 	"time"
+
+	"github.com/araddon/dateparse"
+	"github.com/google/uuid"
 )
 
 func scrapeFeeds(s *state) {
@@ -26,9 +30,27 @@ func scrapeFeeds(s *state) {
 	// decoding (removing all the escaped HTML entities (like &ldquo;)) from channel and items
 	decodeChannelDetails(rss_feed)
 	decodeItemDetails(rss_feed)
+	//Insert the posts of the the feed into posts table in DB
+	for _, post := range rss_feed.Channel.Item {
+		parsedTime, err := dateparse.ParseAny(post.PubDate) //converting the post.PubDate string into date
+		if err != nil {
+			log.Printf("Error parsing PubDate: %v", err)
+			continue
+		}
 
-	for _, feed_item := range rss_feed.Channel.Item {
-		fmt.Printf("%s\n", feed_item.Title)
+		_, err = s.db.CreatePosts(context.Background(), database.CreatePostsParams{
+			ID:          uuid.New(),
+			CreatedAt:   sql.NullTime{Time: time.Now(), Valid: true},
+			UpdatedAt:   sql.NullTime{Time: time.Now(), Valid: true},
+			Title:       post.Title,
+			Url:         post.Link,
+			Description: sql.NullString{String: post.Description, Valid: post.Description != ""},
+			PublishedAt: parsedTime,
+			FeedID:      feed.ID,
+		})
+		if err != nil {
+			log.Fatal("Unable to insert the data into posts table: ", err)
+		}
 	}
 	log.Printf("Feed %s collected, %v posts found", feed.Name, len(rss_feed.Channel.Item))
 }
