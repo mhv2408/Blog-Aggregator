@@ -32,12 +32,14 @@ git clone https://github.com/your-username/gator.git
 cd gator
 go install
 ```
-Create a config file in your home directory named .gatorconfig.json with the following content:
+> [!IMPORTANT]
+> Create a config file in your home directory named ***.gatorconfig.json*** with the following content:\
+`
 {
   "db_url": "postgres://<user_name>:@localhost:5432/gator?sslmode=disable",
   "current_user_name": "<user_name>"
 }
-
+`
 
 Replace <user_name> with your PostgreSQL username or any name of your choice.
 
@@ -48,7 +50,7 @@ Mac/Linux: Open a terminal and run cd ~
 
 Windows: Navigate to C:\Users\your_username
 
-📖 CLI Commands
+## 📖 CLI Commands
 
 | Command                          | Description                                            |
 | -------------------------------- | ------------------------------------------------------ |
@@ -64,7 +66,7 @@ Windows: Navigate to C:\Users\your_username
 | `agg`                            | Fetch, parse, and display all RSS posts from all feeds |
 | `browse`                         | Display posts only from feeds the current user follows |
 
-🧪 Example Feeds to Try
+### 🧪 Example Feeds to Try
 Here are some test RSS feeds you can use:
 
 https://xkcd.com/rss.xml
@@ -73,3 +75,8 @@ https://blog.golang.org/feed.atom
 
 https://hnrss.org/frontpage
 
+### 🧑‍💻 Author
+[Harsha Vardhan Mirthinti](https://www.linkedin.com/in/harshavardhanmirthinti/)
+
+## 💡 Contributing
+Pull requests are welcome! Feel free to open issues or suggest improvements.
